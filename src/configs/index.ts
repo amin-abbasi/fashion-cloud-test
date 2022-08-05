@@ -21,6 +21,12 @@ const config: IConfigModel = {
     objectId: /^[0-9a-fA-F]{24}$/,
   },
 
+  // Time To Live (TTL) [milliseconds]
+  ttl: 2 * 60 * 1000,    // 2 minutes
+
+  // Cache Limit Count
+  cacheLimit: 5,
+
 }
 
 export default config
