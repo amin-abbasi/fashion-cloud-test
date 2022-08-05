@@ -4,7 +4,7 @@ import Boom     from '@hapi/boom'
 import random   from 'randomstring'
 import config   from '../configs'
 
-// Typescript Cache Model
+// Cache Model
 export interface Cache extends mongoose.Document {
   key : string
   ttl : number
@@ -21,7 +21,7 @@ export interface CacheUpdate extends mongoose.Document {
   updatedAt?    : Cache['updatedAt']
 }
 
-// Add your own attributes in schema
+// Attributes in schema
 const Schema = mongoose.Schema
 const schema = new Schema({
   key: { type: Schema.Types.String, required: true, unique: true },

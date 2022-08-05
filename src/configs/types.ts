@@ -16,14 +16,9 @@ export interface IEnvironmentModel {
   readonly LOGGER_PORT : number
 }
 
-interface IRegex {
-  [key: string]: RegExp
-}
-
 export interface IConfigModel {
   readonly env        : IEnvironmentModel
   readonly baseURL    : string
-  readonly regex      : IRegex
   readonly ttl        : number
   readonly cacheLimit : number
 }

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, NextFunction } from 'express'
 import { ResponseWithResult } from '../../types/express'
 
@@ -19,7 +18,6 @@ const exportResult = {
   // List all Cache
   async list(_req: Request, res: ResponseWithResult, next: NextFunction): Promise<void> {
     try {
-      // const query: Model.IQueryData = req.query as Model.IQueryData
       const result: string[] = await Model.listKeys()
       res.result = result
       next(res)

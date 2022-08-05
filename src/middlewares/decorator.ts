@@ -1,22 +1,22 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response, NextFunction } from 'express'
 import { STATUS_CODES } from 'http'
 import { Boom } from '@hapi/boom'
 
-// ----------------- Return Structure -----------------
-// Successful Response:
+// ----------------- APIs Return Structure -----------------
+// >>>> Successful Response:
 // {
 //   statusCode: 20x,
 //   success: true,
 //   result: object or array
 // }
 
-// Error Response:
+// >>>> Error Response:
 // {
 //   statusCode: 4xx or 5xx,
 //   message: string,
 //   errors: object or array
 // }
+
 
 interface IMongoUniqueError {
   _message : string

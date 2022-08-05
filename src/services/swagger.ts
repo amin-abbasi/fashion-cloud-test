@@ -1,7 +1,5 @@
-// Open http://<app_host>:<app_port>/api/docs in your browser to view the documentation.
 import swaggerJSDoc from 'swagger-jsdoc'
 import config       from '../configs'
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const myPackage = require('../../package.json')
 const { name, version, description, license, author } = myPackage
 
@@ -18,33 +16,16 @@ const swaggerDefinition = {
     contact: { name: author, email: 'amin4193@gmail.com' }
   },
   servers: [ { url } ],
-  // basePath: '/v1',
-  // schemes: ['http', 'https'],
   consumes: ['application/json'],
   produces: ['application/json'],
-  // host: url, // Host (optional)
-  // securityDefinitions: {
-  //   JWT: {
-  //     type: 'apiKey',
-  //     in: 'header',
-  //     name: 'Authorization',
-  //     description: "JWT Token for user's authorization",
-  //   }
-  // }
 }
 
 const options: swaggerJSDoc.Options = {
-  swaggerDefinition: swaggerDefinition,
-  // Path files to be processes. for: {openapi: '3.0.0'}
+  swaggerDefinition,
   apis: [
     './src/routes/*.ts',
     './src/models/*.ts',
   ],
-  // files: ['../routes/*.js', '../models/*.js'],  // Path files to be processes. for: {swagger: '2.0'}
-  // basedir: __dirname, //app absolute path
-  // onValidateError: (errors, req, res, next) => { // global handler for validation errors
-  //   res.status(400).send(errors)
-  // },
 }
 
 const specs = swaggerJSDoc(options)

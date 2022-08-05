@@ -1,26 +1,14 @@
 import mongoose from 'mongoose'
 import config   from '../configs'
 
-// Database URL
-const { DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASS } = config.env
+const { DB_HOST, DB_PORT, DB_NAME, DB_USER: user, DB_PASS: pass } = config.env
 const dbURL = `mongodb://${DB_HOST}:${DB_PORT}/${DB_NAME}`
 
-// Import the mongoose module
-const options: mongoose.ConnectOptions = {
-  autoIndex: false
-}
-
-// Secure MongoDB with username and password
-if(DB_USER && DB_PASS) {
-  options.user = DB_USER
-  options.pass = DB_PASS
-}
+let options: mongoose.ConnectOptions = { autoIndex: false }
+if(user && pass) options = { ...options, user, pass }
 
 async function connectDB(): Promise<mongoose.Connection> {
   try {
-    // Mongoose Debug Mode [set it as `false` in production]
-    // mongoose.set('debug', (NODE_ENV === 'development'))
-
     await mongoose.connect(dbURL, options)
     console.log('<<<< Connected to MongoDB >>>>')
 
