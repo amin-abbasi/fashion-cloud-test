@@ -2,49 +2,49 @@ import express from 'express'
 const router = express.Router()
 
 // Add Controllers & Validators
-import Controller from '../controllers/sample'
-import Validator  from '../validators/sample'
+import Controller from '../controllers/cache'
+import Validator  from '../validators/cache'
 
 // (action)             (verb)    (URI)
-// create:              POST      - /samples
-// list:                GET       - /samples
-// details:             GET       - /samples/:sampleId
-// update:              PUT       - /samples/:sampleId
-// delete:              DELETE    - /samples/:sampleId
+// create or update:    POST      - /caches
+// list all keys:       GET       - /caches
+// details:             GET       - /caches/:key
+// delete:              DELETE    - /caches/:key
+// delete all caches:   DELETE    - /caches
 
-// ---------------------------------- Define All Sample Routes Here ----------------------------------
+// ---------------------------------- Define All Cache Routes Here ----------------------------------
 
 /**
  * @openapi
  * paths:
- *   /samples/:
+ *   /caches/:
  *     post:
- *       summary: Create a new sample
- *       tags: [Samples]
+ *       summary: Create a new cache
+ *       tags: [Caches]
  *       requestBody:
  *         required: true
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Sample'
+ *               $ref: '#/components/schemas/Cache'
  *       responses:
  *         "200":
  *           $ref: '#/components/responses/Success'
  *         "400":
  *           $ref: '#/components/responses/BadRequest'
  */
-router.route('').post(Validator.create, Controller.create)
+router.route('').post(Validator.createOrUpdate, Controller.createOrUpdate)
 
 /**
  * @openapi
  * paths:
- *   /samples/:
+ *   /caches/:
  *     get:
- *       summary: Get list of all Samples
- *       tags: [Samples]
+ *       summary: Get list of all Caches
+ *       tags: [Caches]
  *       responses:
  *         "200":
- *           description: Gets a list of samples as an array of objects
+ *           description: Gets a list of caches as an array of objects
  *           content:
  *             application/json:
  *               schema:
@@ -61,7 +61,7 @@ router.route('').post(Validator.create, Controller.create)
  *                         total:
  *                           type: integer
  *                         list:
- *                           $ref: '#/components/schemas/Sample'
+ *                           $ref: '#/components/schemas/Cache'
  *         "400":
  *           $ref: '#/components/responses/BadRequest'
  */
@@ -70,14 +70,14 @@ router.route('').get(Validator.list, Controller.list)
 /**
  * @openapi
  * paths:
- *   /samples/{sampleId}:
+ *   /caches/{key}:
  *     get:
- *       summary: Sample Details
- *       tags: [Samples]
+ *       summary: Cache Details
+ *       tags: [Caches]
  *       parameters:
- *         - name: sampleId
+ *         - name: key
  *           in: path
- *           description: Sample ID
+ *           description: Cache Key
  *           required: true
  *           schema:
  *             type: string
@@ -89,44 +89,19 @@ router.route('').get(Validator.list, Controller.list)
  *         "404":
  *           $ref: '#/components/responses/NotFound'
  */
-router.route('/:sampleId').get(Validator.details, Controller.details)
+router.route('/:key').get(Validator.details, Controller.details)
 
 /**
  * @openapi
  * paths:
- *   /samples/{sampleId}:
- *     put:
- *       summary: Sample Update
- *       tags: [Samples]
- *       parameters:
- *         - name: sampleId
- *           in: path
- *           description: Sample ID
- *           required: true
- *           schema:
- *             type: string
- *       responses:
- *         "200":
- *           $ref: '#/components/responses/Success'
- *         "400":
- *           $ref: '#/components/responses/BadRequest'
- *         "404":
- *           $ref: '#/components/responses/NotFound'
- */
-router.route('/:sampleId').put(Validator.update, Controller.update)
-// router.route('/:sampleId').patch(Validator.update, Controller.update)
-
-/**
- * @openapi
- * paths:
- *   /samples/{sampleId}:
+ *   /caches/{key}:
  *     delete:
- *       summary: Delete Sample
- *       tags: [Samples]
+ *       summary: Delete Cache
+ *       tags: [Caches]
  *       parameters:
- *         - name: sampleId
+ *         - name: key
  *           in: path
- *           description: Sample ID
+ *           description: Cache Key
  *           required: true
  *           schema:
  *             type: string
@@ -138,6 +113,25 @@ router.route('/:sampleId').put(Validator.update, Controller.update)
  *         "404":
  *           $ref: '#/components/responses/NotFound'
  */
-router.route('/:sampleId').delete(Validator.delete, Controller.delete)
+router.route('/:key').delete(Validator.delete, Controller.delete)
+
+/**
+ * @openapi
+ * paths:
+ *   /caches:
+ *     delete:
+ *       summary: Delete all caches
+ *       tags: [Caches]
+ *       responses:
+ *         "200":
+ *           $ref: '#/components/responses/Success'
+ *         "400":
+ *           $ref: '#/components/responses/BadRequest'
+ *         "401":
+ *           $ref: '#/components/responses/Unauthorized'
+ *         "404":
+ *           $ref: '#/components/responses/NotFound'
+ */
+router.route('').delete(Validator.deleteAll, Controller.deleteAll)
 
 export default router

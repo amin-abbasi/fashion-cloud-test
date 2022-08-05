@@ -1,9 +1,9 @@
 import { Request, Response, Router } from 'express'
 const router: Router = Router()
 
-// Sample APIs
-import sampleRouter from './sample'
-router.use('/v1/samples', sampleRouter)
+// Cache APIs
+import cacheRouter from './cache'
+router.use('/v1/caches', cacheRouter)
 
 // API Documentation Swagger
 import swaggerUi  from 'swagger-ui-express'
@@ -20,8 +20,8 @@ export default router
 /**
  * @openapi
  * tags:
- *   name: Samples
- *   description: Sample management
+ *   name: Caches
+ *   description: Cache management
  * components:
  *   responses:
  *     Success:
@@ -72,5 +72,5 @@ export default router
  *           type: boolean
  *           description: Response Status
  *         result:
- *           $ref: '#/components/schemas/Sample'
+ *           $ref: '#/components/schemas/Cache'
  */
