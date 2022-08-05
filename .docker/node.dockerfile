@@ -1,4 +1,4 @@
-FROM node:16.16.0-slim AS builder
+FROM node:alpine3.11 AS builder
 
 WORKDIR /usr/src
 
