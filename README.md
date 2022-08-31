@@ -3,7 +3,7 @@ This is a cache project written with Typescript and implemented using [Node.js] 
 
 
 ## Prerequisites / Setting up for first time
-What you need to install before running this app
+What you need to install before running this app:
 ex: Make sure you have git, nvm, npm, [Node.js], and [MongoDB] installed
 
 
@@ -14,6 +14,12 @@ ex: Make sure you have git, nvm, npm, [Node.js], and [MongoDB] installed
 
 ## Environment Variables Setup
 Check and modify your environment settings by copying or renaming `.env.example` as `.env` file.
+
+There are 4 parts in `.env` file to be considered:
+- Node environment: to specify whether this project in `development` or `production` mode.
+- Application environment: to specify whether this application is in `live` mode or works in `local` mode.
+- Server configurations: to specify `host`, `port`, and `protocol` of server.
+- Database configurations: to specify `host`, `port`, and `name` of using database, which in case we are using MongoDB. You also can set `username` and `password` to secure your database connection if necessary.
 
 
 ## Run Application

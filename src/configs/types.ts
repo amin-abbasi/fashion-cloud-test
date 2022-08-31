@@ -11,9 +11,6 @@ export interface IEnvironmentModel {
   readonly DB_PORT  : number
   readonly DB_USER? : string
   readonly DB_PASS? : string
-
-  readonly LOGGER_HOST : string
-  readonly LOGGER_PORT : number
 }
 
 export interface IConfigModel {
