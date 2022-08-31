@@ -97,6 +97,16 @@ describe('Cache Worker', () => {
     expect(response.result).toMatchSnapshot()
   })
 
+  // Delete a Cache [Not Found case]
+  test('should show 404 error for deleting a cache that it does not exist', async () => {
+    const res = await request.del('/api/v1/caches/zzz')
+    const response = JSON.parse(res.text)
+    expect(response.statusCode).toBe(404)
+    expect(response.result).toBeUndefined()
+    expect(response.message).toBe('Cache not found.')
+    expect(response).toMatchSnapshot()
+  })
+
   // Delete all Caches from DB
   test('should delete all caches from DB', async () => {
     const res = await request.del('/api/v1/caches')
