@@ -49,11 +49,11 @@ schema.plugin(uniqueV, {
 const Cache = mongoose.model<Cache>('Cache', schema)
 
 
-async function createCache(key: string): Promise<Cache> {
+async function createCache(key: string, randomString?: string): Promise<Cache> {
   const caches: Cache[] = await Cache.find({ deletedAt: 0 }).sort({ updatedAt: 1, createdAt: 1 })
 
   // Checks the cache count limit and removes the oldest data that haven't updated yet
-  if(caches.length === parseInt(CACHE_LIMIT.toString())) {
+  if(caches.length === parseInt(CACHE_LIMIT?.toString())) {
     console.log('>>>>>>>> Delete the oldest cache data from DB - key: ', caches[0].key)
     await Cache.deleteOne({ _id: caches[0]._id })
   }
@@ -62,29 +62,29 @@ async function createCache(key: string): Promise<Cache> {
   const now: number = Date.now()
   const cacheData = {
     key,
-    randomString: random.generate(),
+    randomString: randomString || random.generate(),
     ttl: now + parseInt(TTL.toString()),
     createdAt: now,
   }
   return await Cache.create(cacheData as Cache)
 }
 
-async function updateCache(key: string): Promise<Cache> {
+async function updateCache(key: string, randomString?: string): Promise<Cache> {
   const cache: Cache = await details(key)
   const now: number = Date.now()
-  cache.randomString = random.generate()
+  cache.randomString = randomString || random.generate()
   cache.ttl = now + parseInt(TTL.toString())
   cache.updatedAt = now
   return await Cache.findByIdAndUpdate(cache._id, cache, { new: true }) as Cache
 }
 
-export async function createOrUpdate(key: string): Promise <Cache> {
+export async function createOrUpdate(key: string, randomString?: string): Promise <Cache> {
   try {
     // Will update the existing cache with the given `key`
-    return await updateCache(key)
+    return await updateCache(key, randomString)
   } catch (error) {
     // Creates a new cache with the given `key`
-    return await createCache(key)
+    return await createCache(key, randomString)
   }
 }
 

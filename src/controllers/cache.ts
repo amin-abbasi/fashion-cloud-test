@@ -8,8 +8,8 @@ const exportResult = {
   // Create Or Update Cache
   async createOrUpdate(req: Request, res: ResponseWithResult, next: NextFunction): Promise<void> {
     try {
-      const key: string = req.body.key
-      const result: Model.Cache = await Model.createOrUpdate(key)
+      const { key, randomString }: { key: string, randomString?: string } = req.body
+      const result: Model.Cache = await Model.createOrUpdate(key, randomString)
       res.result = result
       next(res)
     } catch (err) { next(err) }

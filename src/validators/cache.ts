@@ -7,6 +7,7 @@ const exportResult = {
   createOrUpdate: validate({
     body: Joi.object({
       key: Joi.string().max(50).required().description('Cache Key'),
+      randomString: Joi.string().max(50).description('Cache Random String'),
     }),
     query: Joi.object({})
   }),
