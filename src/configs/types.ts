@@ -11,11 +11,12 @@ export interface IEnvironmentModel {
   readonly DB_PORT  : number
   readonly DB_USER? : string
   readonly DB_PASS? : string
+
+  readonly TTL : number
+  readonly CACHE_LIMIT : number
 }
 
 export interface IConfigModel {
-  readonly env        : IEnvironmentModel
-  readonly baseURL    : string
-  readonly ttl        : number
-  readonly cacheLimit : number
+  readonly env     : IEnvironmentModel
+  readonly baseURL : string
 }

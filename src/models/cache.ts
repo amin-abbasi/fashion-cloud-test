@@ -4,6 +4,8 @@ import Boom     from '@hapi/boom'
 import random   from 'randomstring'
 import config   from '../configs'
 
+const { TTL, CACHE_LIMIT } = config.env
+
 // Cache Model
 export interface Cache extends mongoose.Document {
   key : string
@@ -51,7 +53,7 @@ async function createCache(key: string): Promise<Cache> {
   const caches: Cache[] = await Cache.find({ deletedAt: 0 }).sort({ updatedAt: 1, createdAt: 1 })
 
   // Checks the cache count limit and removes the oldest data that haven't updated yet
-  if(caches.length === config.cacheLimit) {
+  if(caches.length === CACHE_LIMIT) {
     console.log('>>>>>>>> Delete the oldest cache data from DB - key: ', caches[0].key)
     await Cache.deleteOne({ _id: caches[0]._id })
   }
@@ -61,7 +63,7 @@ async function createCache(key: string): Promise<Cache> {
   const cacheData = {
     key,
     randomString: random.generate(),
-    ttl: now + config.ttl,
+    ttl: now + TTL,
     createdAt: now,
   }
   return await Cache.create(cacheData as Cache)
@@ -71,7 +73,7 @@ async function updateCache(key: string): Promise<Cache> {
   const cache: Cache = await details(key)
   const now: number = new Date().getTime()
   cache.randomString = random.generate()
-  cache.ttl = now + config.ttl
+  cache.ttl = now + TTL
   cache.updatedAt = now
   return await Cache.findByIdAndUpdate(cache._id, cache, { new: true }) as Cache
 }
