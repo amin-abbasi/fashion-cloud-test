@@ -53,17 +53,17 @@ async function createCache(key: string): Promise<Cache> {
   const caches: Cache[] = await Cache.find({ deletedAt: 0 }).sort({ updatedAt: 1, createdAt: 1 })
 
   // Checks the cache count limit and removes the oldest data that haven't updated yet
-  if(caches.length === CACHE_LIMIT) {
+  if(caches.length === parseInt(CACHE_LIMIT.toString())) {
     console.log('>>>>>>>> Delete the oldest cache data from DB - key: ', caches[0].key)
     await Cache.deleteOne({ _id: caches[0]._id })
   }
 
   // Create a new Cache data
-  const now: number = new Date().getTime()
+  const now: number = Date.now()
   const cacheData = {
     key,
     randomString: random.generate(),
-    ttl: now + TTL,
+    ttl: now + parseInt(TTL.toString()),
     createdAt: now,
   }
   return await Cache.create(cacheData as Cache)
@@ -71,9 +71,9 @@ async function createCache(key: string): Promise<Cache> {
 
 async function updateCache(key: string): Promise<Cache> {
   const cache: Cache = await details(key)
-  const now: number = new Date().getTime()
+  const now: number = Date.now()
   cache.randomString = random.generate()
-  cache.ttl = now + TTL
+  cache.ttl = now + parseInt(TTL.toString())
   cache.updatedAt = now
   return await Cache.findByIdAndUpdate(cache._id, cache, { new: true }) as Cache
 }
@@ -105,8 +105,7 @@ export async function getOrUpdate(key: string): Promise<Cache> {
     console.log('>>>>>>>> Cache hit')
 
     // Renew cache data that exceeded its ttl
-    const now: number = new Date().getTime()
-    if(cache.ttl >= now) return cache
+    if(cache.ttl >= Date.now()) return cache
     console.log('>>>>>>>> Renew Cache')
     return await updateCache(key)
 
